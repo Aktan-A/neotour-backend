@@ -10,7 +10,7 @@ services:
       - postgres-data:/var/lib/postgresql/data/
 
   backend:
-    build: .
+    image: registry.digitalocean.com/aktan-registry
     container_name: backend
     depends_on:
       - db
