@@ -19,8 +19,12 @@ public class Image extends BaseEntity {
     @Column(nullable = false)
     private String url;
 
-    public Image(String url) {
+    @Column(name = "remote_id", nullable = false)
+    private String remoteId;
+
+    public Image(String url, String remoteId) {
         this.url = url;
+        this.remoteId = remoteId;
     }
 
     @Override
