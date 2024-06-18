@@ -32,7 +32,11 @@ public class TripServiceImpl implements TripService {
         if (trip.isEmpty()) {
             throw new ResourceNotFoundException("Trip with id " + id + " does not exist.");
         }
-        return modelMapper.map(trip.get(), TripDto.class);
+
+        Trip tripModel = trip.get();
+        tripModel.setPageVisits(tripModel.getPageVisits() + 1);
+
+        return modelMapper.map(tripRepository.save(tripModel), TripDto.class);
     }
 
     @Override
@@ -44,6 +48,27 @@ public class TripServiceImpl implements TripService {
         } else {
             trips = tripRepository.findAllByDeletedFalse(pageRequest);
         }
+        return trips.map(trip -> modelMapper.map(trip, TripDto.class));
+    }
+
+    @Override
+    public Page<TripDto> getPopularTrips(int page, int size) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Page<Trip> trips = tripRepository.findAllByDeletedFalseOrderByPageVisitsDesc(pageRequest);
+        return trips.map(trip -> modelMapper.map(trip, TripDto.class));
+    }
+
+    @Override
+    public Page<TripDto> getFeaturedTrips(int page, int size) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Page<Trip> trips = tripRepository.findAllByDeletedFalseAndFeaturedTrue(pageRequest);
+        return trips.map(trip -> modelMapper.map(trip, TripDto.class));
+    }
+
+    @Override
+    public Page<TripDto> getMostVisitedTrips(int page, int size) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Page<Trip> trips = tripRepository.findAllByDeletedFalseOrderByBookingsDesc(pageRequest);
         return trips.map(trip -> modelMapper.map(trip, TripDto.class));
     }
 

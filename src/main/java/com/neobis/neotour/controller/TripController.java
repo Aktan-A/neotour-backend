@@ -28,6 +28,21 @@ public class TripController {
         return ResponseEntity.ok(tripService.getTrips(page, size, continent));
     }
 
+    @GetMapping(path = "/popular")
+    public ResponseEntity<Page<TripDto>> getPopularTrips(@RequestParam int page, @RequestParam int size) {
+        return ResponseEntity.ok(tripService.getPopularTrips(page, size));
+    }
+
+    @GetMapping(path = "/featured")
+    public ResponseEntity<Page<TripDto>> getFeaturedTrips(@RequestParam int page, @RequestParam int size) {
+        return ResponseEntity.ok(tripService.getFeaturedTrips(page, size));
+    }
+
+    @GetMapping(path = "/most-visited")
+    public ResponseEntity<Page<TripDto>> getMostVisitedTrips(@RequestParam int page, @RequestParam int size) {
+        return ResponseEntity.ok(tripService.getMostVisitedTrips(page, size));
+    }
+
     @PostMapping
     public ResponseEntity<TripDto> createTrip(@RequestBody TripDto tripDto) {
         return ResponseEntity.ok(tripService.createTrip(tripDto));
