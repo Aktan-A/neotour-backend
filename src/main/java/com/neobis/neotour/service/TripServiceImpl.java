@@ -1,6 +1,7 @@
 package com.neobis.neotour.service;
 
 import com.neobis.neotour.dto.TripDto;
+import com.neobis.neotour.enums.Continent;
 import com.neobis.neotour.exceptions.ResourceNotFoundException;
 import com.neobis.neotour.model.Image;
 import com.neobis.neotour.model.Location;
@@ -35,11 +36,15 @@ public class TripServiceImpl implements TripService {
     }
 
     @Override
-    public Page<TripDto> getTrips(int page, int size) {
+    public Page<TripDto> getTrips(int page, int size, Continent continent) {
         PageRequest pageRequest = PageRequest.of(page, size);
-        Page<Trip> trips = tripRepository.findAllByDeletedFalse(pageRequest);
-        Page<TripDto> tripDtos = trips.map(trip -> modelMapper.map(trip, TripDto.class));
-        return tripDtos;
+        Page<Trip> trips;
+        if (continent != null) {
+            trips = tripRepository.findAllByDeletedFalseAndContinent(pageRequest, continent);
+        } else {
+            trips = tripRepository.findAllByDeletedFalse(pageRequest);
+        }
+        return trips.map(trip -> modelMapper.map(trip, TripDto.class));
     }
 
     @Override

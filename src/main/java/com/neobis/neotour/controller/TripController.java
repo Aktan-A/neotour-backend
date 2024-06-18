@@ -1,6 +1,7 @@
 package com.neobis.neotour.controller;
 
 import com.neobis.neotour.dto.TripDto;
+import com.neobis.neotour.enums.Continent;
 import com.neobis.neotour.service.TripService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,8 +21,11 @@ public class TripController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<TripDto>> getAllTrips(@RequestParam int page, @RequestParam int size) {
-        return ResponseEntity.ok(tripService.getTrips(page, size));
+    public ResponseEntity<Page<TripDto>> getAllTrips(
+            @RequestParam int page,
+            @RequestParam int size,
+            @RequestParam(required = false) Continent continent) {
+        return ResponseEntity.ok(tripService.getTrips(page, size, continent));
     }
 
     @PostMapping
