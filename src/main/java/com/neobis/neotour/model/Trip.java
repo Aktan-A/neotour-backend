@@ -44,6 +44,11 @@ public class Trip extends BaseEntity {
     @Column(nullable = false)
     private Boolean featured;
 
+    @PrePersist
+    protected void onCreate() {
+        pageVisits = 0L;
+    }
+
     public Trip(String name, String description, Season season, Integer maxPeopleAmount, Long pageVisits, Boolean featured) {
         this.name = name;
         this.description = description;
