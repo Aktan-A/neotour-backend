@@ -2,6 +2,7 @@ package com.neobis.neotour.service;
 
 import com.neobis.neotour.dto.TripDto;
 import com.neobis.neotour.enums.Continent;
+import com.neobis.neotour.enums.Season;
 import com.neobis.neotour.exceptions.ResourceNotFoundException;
 import com.neobis.neotour.model.Image;
 import com.neobis.neotour.model.Location;
@@ -9,6 +10,7 @@ import com.neobis.neotour.model.Trip;
 import com.neobis.neotour.repository.ImageRepository;
 import com.neobis.neotour.repository.LocationRepository;
 import com.neobis.neotour.repository.TripRepository;
+import com.neobis.neotour.util.SeasonUtil;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -25,6 +27,7 @@ public class TripServiceImpl implements TripService {
     private final LocationRepository locationRepository;
     private final ImageRepository imageRepository;
     private final ModelMapper modelMapper;
+    private final SeasonUtil seasonUtil;
 
     @Override
     public TripDto getTripById(Long id) {
@@ -69,6 +72,14 @@ public class TripServiceImpl implements TripService {
     public Page<TripDto> getMostVisitedTrips(int page, int size) {
         PageRequest pageRequest = PageRequest.of(page, size);
         Page<Trip> trips = tripRepository.findAllByDeletedFalseOrderByBookingsDesc(pageRequest);
+        return trips.map(trip -> modelMapper.map(trip, TripDto.class));
+    }
+
+    @Override
+    public Page<TripDto> getRecommendedTrips(int page, int size) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Season currentSeason = seasonUtil.getCurrentSeason();
+        Page<Trip> trips = tripRepository.findAllByDeletedFalseAndSeason(pageRequest, currentSeason);
         return trips.map(trip -> modelMapper.map(trip, TripDto.class));
     }
 

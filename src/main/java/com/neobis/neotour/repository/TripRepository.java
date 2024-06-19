@@ -1,6 +1,7 @@
 package com.neobis.neotour.repository;
 
 import com.neobis.neotour.enums.Continent;
+import com.neobis.neotour.enums.Season;
 import com.neobis.neotour.model.Trip;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +16,7 @@ public interface TripRepository extends JpaRepository<Trip, Long> {
     Page<Trip> findAllByDeletedFalse(Pageable pageable);
     @Query("SELECT t FROM Trip t JOIN t.location l JOIN l.country c WHERE t.deleted = false AND c.continent = :continent")
     Page<Trip> findAllByDeletedFalseAndContinent(Pageable pageable, Continent continent);
+    Page<Trip> findAllByDeletedFalseAndSeason(Pageable pageable, Season season);
     Optional<Trip> findByIdAndDeletedFalse(Long id);
     Page<Trip> findAllByDeletedFalseAndFeaturedTrue(Pageable pageable);
     Page<Trip> findAllByDeletedFalseOrderByPageVisitsDesc(Pageable pageable);
