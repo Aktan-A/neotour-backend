@@ -10,6 +10,7 @@ public interface TripService {
     Page<TripDto> getPopularTrips(int page, int size);
     Page<TripDto> getFeaturedTrips(int page, int size);
     Page<TripDto> getMostVisitedTrips(int page, int size);
+    Page<TripDto> getRecommendedTrips(int page, int size);
     TripDto createTrip(TripDto tripDto);
     TripDto updateTripById(Long id, TripDto tripDto);
     void deleteTripById(Long id);

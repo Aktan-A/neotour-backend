@@ -49,6 +49,11 @@ public class TripController {
         return ResponseEntity.ok(tripService.getMostVisitedTrips(page, size));
     }
 
+    @GetMapping(path = "/recommended")
+    public ResponseEntity<Page<TripDto>> getRecommendedTrips(@RequestParam int page, @RequestParam int size) {
+        return ResponseEntity.ok(tripService.getRecommendedTrips(page, size));
+    }
+
     @GetMapping(path = "/{tripId}/reviews")
     public ResponseEntity<Page<ReviewDto>> getTripReviews(
             @PathVariable("tripId") Long id,
