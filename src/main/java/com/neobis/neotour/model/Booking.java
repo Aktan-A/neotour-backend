@@ -1,6 +1,7 @@
 package com.neobis.neotour.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,6 +24,7 @@ public class Booking extends BaseEntity {
     private String comment;
 
     @Column(name = "people_amount", nullable = false)
+    @Min(1)
     private Integer peopleAmount;
 
     @ManyToOne

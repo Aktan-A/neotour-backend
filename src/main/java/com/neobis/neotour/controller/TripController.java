@@ -1,8 +1,10 @@
 package com.neobis.neotour.controller;
 
+import com.neobis.neotour.dto.BookingDto;
 import com.neobis.neotour.dto.ReviewDto;
 import com.neobis.neotour.dto.TripDto;
 import com.neobis.neotour.enums.Continent;
+import com.neobis.neotour.service.BookingService;
 import com.neobis.neotour.service.ReviewService;
 import com.neobis.neotour.service.TripService;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,7 @@ public class TripController {
 
     private final TripService tripService;
     private final ReviewService reviewService;
+    private final BookingService bookingService;
 
     @GetMapping(path = "/{tripId}")
     public ResponseEntity<TripDto> getTripById(@PathVariable("tripId") Long id) {
@@ -52,6 +55,14 @@ public class TripController {
             @RequestParam int page,
             @RequestParam int size) {
         return ResponseEntity.ok(reviewService.getReviewsByTripId(page, size, id));
+    }
+
+    @GetMapping(path = "/{tripId}/bookings")
+    public ResponseEntity<Page<BookingDto>> getAllBookingsByTripId(
+            @PathVariable("tripId") Long id,
+            @RequestParam int page,
+            @RequestParam int size) {
+        return ResponseEntity.ok(bookingService.getBookingsByTripId(page, size, id));
     }
 
     @PostMapping
