@@ -1,6 +1,7 @@
 package com.neobis.neotour.service;
 
 import com.neobis.neotour.dto.TripDto;
+import com.neobis.neotour.dto.TripOutDto;
 import com.neobis.neotour.enums.Continent;
 import com.neobis.neotour.enums.Season;
 import com.neobis.neotour.exceptions.ResourceNotFoundException;
@@ -30,7 +31,7 @@ public class TripServiceImpl implements TripService {
     private final SeasonUtil seasonUtil;
 
     @Override
-    public TripDto getTripById(Long id) {
+    public TripOutDto getTripById(Long id) {
         Optional<Trip> trip = tripRepository.findByIdAndDeletedFalse(id);
         if (trip.isEmpty()) {
             throw new ResourceNotFoundException("Trip with id " + id + " does not exist.");
@@ -39,11 +40,11 @@ public class TripServiceImpl implements TripService {
         Trip tripModel = trip.get();
         tripModel.setPageVisits(tripModel.getPageVisits() + 1);
 
-        return modelMapper.map(tripRepository.save(tripModel), TripDto.class);
+        return modelMapper.map(tripRepository.save(tripModel), TripOutDto.class);
     }
 
     @Override
-    public Page<TripDto> getTrips(int page, int size, Continent continent) {
+    public Page<TripOutDto> getTrips(int page, int size, Continent continent) {
         PageRequest pageRequest = PageRequest.of(page, size);
         Page<Trip> trips;
         if (continent != null) {
@@ -51,36 +52,36 @@ public class TripServiceImpl implements TripService {
         } else {
             trips = tripRepository.findAllByDeletedFalse(pageRequest);
         }
-        return trips.map(trip -> modelMapper.map(trip, TripDto.class));
+        return trips.map(trip -> modelMapper.map(trip, TripOutDto.class));
     }
 
     @Override
-    public Page<TripDto> getPopularTrips(int page, int size) {
+    public Page<TripOutDto> getPopularTrips(int page, int size) {
         PageRequest pageRequest = PageRequest.of(page, size);
         Page<Trip> trips = tripRepository.findAllByDeletedFalseOrderByPageVisitsDesc(pageRequest);
-        return trips.map(trip -> modelMapper.map(trip, TripDto.class));
+        return trips.map(trip -> modelMapper.map(trip, TripOutDto.class));
     }
 
     @Override
-    public Page<TripDto> getFeaturedTrips(int page, int size) {
+    public Page<TripOutDto> getFeaturedTrips(int page, int size) {
         PageRequest pageRequest = PageRequest.of(page, size);
         Page<Trip> trips = tripRepository.findAllByDeletedFalseAndFeaturedTrue(pageRequest);
-        return trips.map(trip -> modelMapper.map(trip, TripDto.class));
+        return trips.map(trip -> modelMapper.map(trip, TripOutDto.class));
     }
 
     @Override
-    public Page<TripDto> getMostVisitedTrips(int page, int size) {
+    public Page<TripOutDto> getMostVisitedTrips(int page, int size) {
         PageRequest pageRequest = PageRequest.of(page, size);
         Page<Trip> trips = tripRepository.findAllByDeletedFalseOrderByBookingsDesc(pageRequest);
-        return trips.map(trip -> modelMapper.map(trip, TripDto.class));
+        return trips.map(trip -> modelMapper.map(trip, TripOutDto.class));
     }
 
     @Override
-    public Page<TripDto> getRecommendedTrips(int page, int size) {
+    public Page<TripOutDto> getRecommendedTrips(int page, int size) {
         PageRequest pageRequest = PageRequest.of(page, size);
         Season currentSeason = seasonUtil.getCurrentSeason();
         Page<Trip> trips = tripRepository.findAllByDeletedFalseAndSeason(pageRequest, currentSeason);
-        return trips.map(trip -> modelMapper.map(trip, TripDto.class));
+        return trips.map(trip -> modelMapper.map(trip, TripOutDto.class));
     }
 
     @Override
