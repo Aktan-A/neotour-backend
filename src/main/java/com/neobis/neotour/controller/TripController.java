@@ -1,7 +1,9 @@
 package com.neobis.neotour.controller;
 
+import com.neobis.neotour.dto.ReviewDto;
 import com.neobis.neotour.dto.TripDto;
 import com.neobis.neotour.enums.Continent;
+import com.neobis.neotour.service.ReviewService;
 import com.neobis.neotour.service.TripService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public class TripController {
 
     private final TripService tripService;
+    private final ReviewService reviewService;
 
     @GetMapping(path = "/{tripId}")
     public ResponseEntity<TripDto> getTripById(@PathVariable("tripId") Long id) {
@@ -41,6 +44,14 @@ public class TripController {
     @GetMapping(path = "/most-visited")
     public ResponseEntity<Page<TripDto>> getMostVisitedTrips(@RequestParam int page, @RequestParam int size) {
         return ResponseEntity.ok(tripService.getMostVisitedTrips(page, size));
+    }
+
+    @GetMapping(path = "/{tripId}/reviews")
+    public ResponseEntity<Page<ReviewDto>> getTripReviews(
+            @PathVariable("tripId") Long id,
+            @RequestParam int page,
+            @RequestParam int size) {
+        return ResponseEntity.ok(reviewService.getReviewsByTripId(page, size, id));
     }
 
     @PostMapping
