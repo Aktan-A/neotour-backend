@@ -3,6 +3,7 @@ package com.neobis.neotour.controller;
 import com.neobis.neotour.dto.BookingDto;
 import com.neobis.neotour.dto.ReviewDto;
 import com.neobis.neotour.dto.TripDto;
+import com.neobis.neotour.dto.TripOutDto;
 import com.neobis.neotour.enums.Continent;
 import com.neobis.neotour.service.BookingService;
 import com.neobis.neotour.service.ReviewService;
@@ -22,12 +23,12 @@ public class TripController {
     private final BookingService bookingService;
 
     @GetMapping(path = "/{tripId}")
-    public ResponseEntity<TripDto> getTripById(@PathVariable("tripId") Long id) {
+    public ResponseEntity<TripOutDto> getTripById(@PathVariable("tripId") Long id) {
         return ResponseEntity.ok(tripService.getTripById(id));
     }
 
     @GetMapping
-    public ResponseEntity<Page<TripDto>> getAllTrips(
+    public ResponseEntity<Page<TripOutDto>> getAllTrips(
             @RequestParam int page,
             @RequestParam int size,
             @RequestParam(required = false) Continent continent) {
@@ -35,22 +36,22 @@ public class TripController {
     }
 
     @GetMapping(path = "/popular")
-    public ResponseEntity<Page<TripDto>> getPopularTrips(@RequestParam int page, @RequestParam int size) {
+    public ResponseEntity<Page<TripOutDto>> getPopularTrips(@RequestParam int page, @RequestParam int size) {
         return ResponseEntity.ok(tripService.getPopularTrips(page, size));
     }
 
     @GetMapping(path = "/featured")
-    public ResponseEntity<Page<TripDto>> getFeaturedTrips(@RequestParam int page, @RequestParam int size) {
+    public ResponseEntity<Page<TripOutDto>> getFeaturedTrips(@RequestParam int page, @RequestParam int size) {
         return ResponseEntity.ok(tripService.getFeaturedTrips(page, size));
     }
 
     @GetMapping(path = "/most-visited")
-    public ResponseEntity<Page<TripDto>> getMostVisitedTrips(@RequestParam int page, @RequestParam int size) {
+    public ResponseEntity<Page<TripOutDto>> getMostVisitedTrips(@RequestParam int page, @RequestParam int size) {
         return ResponseEntity.ok(tripService.getMostVisitedTrips(page, size));
     }
 
     @GetMapping(path = "/recommended")
-    public ResponseEntity<Page<TripDto>> getRecommendedTrips(@RequestParam int page, @RequestParam int size) {
+    public ResponseEntity<Page<TripOutDto>> getRecommendedTrips(@RequestParam int page, @RequestParam int size) {
         return ResponseEntity.ok(tripService.getRecommendedTrips(page, size));
     }
 
