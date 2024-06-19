@@ -9,7 +9,9 @@ import lombok.ToString;
 import java.util.Objects;
 
 @Entity
-@Table(name = "reviews")
+@Table(name = "reviews", uniqueConstraints = {
+        @UniqueConstraint(name = "UniqueUserAndTripReview", columnNames = {"user_id", "trip_id"})
+})
 @Getter
 @Setter
 @NoArgsConstructor
