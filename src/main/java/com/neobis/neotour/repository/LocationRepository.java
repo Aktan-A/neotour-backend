@@ -10,5 +10,6 @@ import java.util.Optional;
 @Repository
 public interface LocationRepository extends JpaRepository<Location, Long> {
     List<Location> findAllByDeletedFalse();
+
     Optional<Location> findByIdAndDeletedFalse(Long id);
 }

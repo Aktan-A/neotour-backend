@@ -1,6 +1,7 @@
 package com.neobis.neotour.service;
 
 import com.neobis.neotour.dto.BookingDto;
+import com.neobis.neotour.dto.BookingInDto;
 import com.neobis.neotour.exceptions.InvalidRequestException;
 import com.neobis.neotour.exceptions.ResourceExistsException;
 import com.neobis.neotour.exceptions.ResourceNotFoundException;
@@ -32,7 +33,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public BookingDto createBooking(BookingDto bookingDto) {
+    public BookingDto createBooking(BookingInDto bookingDto) {
         boolean bookingExists = bookingRepository.existsByPhoneAndTripId(bookingDto.getPhone(), bookingDto.getTripId());
         if (bookingExists) {
             throw new ResourceExistsException("Booking for this phone and trip already exists.");

@@ -6,7 +6,10 @@ import java.util.List;
 
 public interface LocationService {
     List<LocationDto> getLocations();
+
     LocationDto createLocation(LocationDto locationDto);
+
     LocationDto updateLocationById(Long id, LocationDto locationDto);
+
     void deleteLocationById(Long id);
 }
