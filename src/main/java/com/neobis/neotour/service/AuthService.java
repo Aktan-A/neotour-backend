@@ -7,5 +7,6 @@ import com.neobis.neotour.dto.RegisterResponseDto;
 
 public interface AuthService {
     RegisterResponseDto register(RegisterRequestDto registerRequestDto);
+
     LoginResponseDto login(LoginRequestDto loginRequestDto);
 }

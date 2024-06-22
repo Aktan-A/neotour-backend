@@ -10,5 +10,6 @@ import java.util.Optional;
 @Repository
 public interface CountryRepository extends JpaRepository<Country, Long> {
     List<Country> findAllByDeletedFalse();
+
     Optional<Country> findByIdAndDeletedFalse(Long id);
 }
