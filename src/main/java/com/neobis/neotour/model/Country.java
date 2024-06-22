@@ -10,7 +10,7 @@ import lombok.ToString;
 import java.util.Objects;
 
 @Entity
-@Table(name = "countries")
+@Table(name = "countries", indexes = @Index(columnList = "continent"))
 @Getter
 @Setter
 @NoArgsConstructor
