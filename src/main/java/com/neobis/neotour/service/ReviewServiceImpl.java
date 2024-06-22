@@ -1,13 +1,17 @@
 package com.neobis.neotour.service;
 
 import com.neobis.neotour.dto.ReviewDto;
+import com.neobis.neotour.dto.ReviewInDto;
 import com.neobis.neotour.exceptions.ResourceNotFoundException;
 import com.neobis.neotour.model.Review;
+import com.neobis.neotour.model.User;
 import com.neobis.neotour.repository.ReviewRepository;
+import com.neobis.neotour.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -17,6 +21,7 @@ import java.util.Optional;
 public class ReviewServiceImpl implements ReviewService {
 
     private final ReviewRepository reviewRepository;
+    private final UserRepository userRepository;
     private final ModelMapper modelMapper;
 
     @Override
@@ -27,8 +32,10 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public ReviewDto createReview(ReviewDto reviewDto) {
+    public ReviewDto createReview(ReviewInDto reviewDto) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Review review = modelMapper.map(reviewDto, Review.class);
+        review.setUser(user);
         return modelMapper.map(reviewRepository.save(review), ReviewDto.class);
     }
 

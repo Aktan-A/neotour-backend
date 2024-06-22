@@ -27,10 +27,7 @@ public class ReviewController {
     })
     @PostMapping
     public ResponseEntity<ReviewDto> createReview(@RequestBody ReviewInDto reviewInDto) {
-        ReviewDto reviewDto = modelMapper.map(reviewInDto, ReviewDto.class);
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        reviewDto.setUserId(user.getId());
-        return ResponseEntity.ok(reviewService.createReview(reviewDto));
+        return ResponseEntity.ok(reviewService.createReview(reviewInDto));
     }
 
     @Operation(summary = "Delete a review by id", description = "Deletes a review")

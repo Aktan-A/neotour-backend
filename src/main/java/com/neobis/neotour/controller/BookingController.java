@@ -29,8 +29,7 @@ public class BookingController {
     })
     @PostMapping
     public ResponseEntity<BookingDto> createBooking(@RequestBody BookingInDto bookingInDto) {
-        BookingDto bookingDto = modelMapper.map(bookingInDto, BookingDto.class);
-        return ResponseEntity.ok(bookingService.createBooking(bookingDto));
+        return ResponseEntity.ok(bookingService.createBooking(bookingInDto));
     }
 
     @Operation(summary = "Delete a booking by id", description = "Deletes a booking")
